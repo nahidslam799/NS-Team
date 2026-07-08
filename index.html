@@ -489,8 +489,7 @@
     let isAdminAuthenticated = false;
 
     // ⚠️ আপনার localtunnel থেকে প্রাপ্ত HTTPS লিংকটি এখানে বসাবেন (যেমন: https://cool-urls-hide.loca.lt)
-    const TERMUX_API_URL = "https://your-localtunnel-url-here.loca.lt"; 
-
+    const TERMUX_API_URL = "http://127.0.0.1:8000";
     let targetUid = null;
     let sessionUser = JSON.parse(localStorage.getItem('suresms_logged_user')) || null;
 
