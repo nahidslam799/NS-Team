@@ -559,8 +559,9 @@
         .then(res => res.json())
         .then(data => {
             if(data.success) {
-                let finalUsername = `Md:Eklas Ali (${targetUid})`;
-                let profilePicHtml = `<img src="https://api.dicebear.com/7.x/bottts/svg?seed=${targetUid}" alt="avatar">`;
+                let finalUsername = data.name;
+
+                let profilePicHtml = `<img src="${data.photo}">`;
 
                 let userData = {
                     username: finalUsername,
