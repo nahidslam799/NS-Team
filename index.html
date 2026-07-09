@@ -115,7 +115,7 @@
             display: block;
         }
 
-        /* MAIN APP APP-HEADER */
+        /* MAIN APP HEADER */
         .app-header {
             display: flex;
             justify-content: space-between;
@@ -228,7 +228,7 @@
             font-size: 1.2rem;
             border: 1px solid rgba(59, 130, 246, 0.2);
         }
-        .service-name { font-weight: 700; font-size: 1rem; }
+        .service-name { font-weight: 700; font-size: 1 Rep; }
         .service-hint { font-size: 0.8rem; color: var(--text-muted); }
 
         /* COUNTRY LIST */
@@ -292,11 +292,6 @@
         .auth-gate-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px 20px; text-align: center; margin-top: 40px; }
         .auth-icon { font-size: 2.5rem; margin-bottom: 15px; }
 
-        .inbox-section { margin-top: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; }
-        .inbox-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-        .inbox-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; }
-        .inbox-empty-box { border: 1px dashed rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 30px 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
-
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -357,6 +352,7 @@
                         <div class="sub-status"><span style="width:6px;height:6px;background:var(--accent-green);border-radius:50%"></span> SURESMS LIVE SYSTEM</div>
                     </div>
                 </div>
+                <button onclick="logout()" style="width:auto; background:#ef4444; color:white; border:none; padding:6px 12px; border-radius:6px; font-size:0.8rem; cursor:pointer;">Logout</button>
             </div>
 
             <!-- Section Navigation Bar -->
@@ -405,25 +401,18 @@
                     <div class="expiry-text">Expires in <span id="secondsTxt">295</span>s</div>
 
                     <div class="action-flex-buttons">
-                        <button class="btn-primary-action" onclick="requestNextNumberSameCountry()">New Number</button>
-                        <button onclick="switchScreen('scrCountry')">Switch Country</button>
+                        <button class="btn-primary-action" onclick="requestNextNumberSameCountry()">Cancel / Next Number</button>
+                        <button onclick="switchScreen('scrService')">Back to Home</button>
                     </div>
-                </div>
-
-                <div class="inbox-section">
-                    <div class="inbox-title">Verification Inbox</div>
-                    <div class="inbox-sub">OTP codes appear here and in your bot chat.</div>
-                    <div class="inbox-empty-box">No OTP yet — received codes will appear here.</div>
                 </div>
             </div>
 
-            <!-- PAGE 4: ADMIN GATE (PASSWORD BOX) -->
+            <!-- PAGE 4: ADMIN GATE -->
             <div id="scrAdminAuth" class="app-page">
                 <div class="auth-gate-box">
                     <div class="auth-icon">🔒</div>
                     <h2 style="font-size:1.2rem; margin-bottom:8px;">Admin Authentication</h2>
                     <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">এই প্যানেলে প্রবেশের জন্য আপনার সিক্রেট পিন/পাসওয়ার্ড লিখুন।</p>
-                    
                     <input type="password" id="adminPasswordField" class="admin-input" style="text-align:center; font-size:1.2rem; letter-spacing:4px;" placeholder="••••">
                     <button class="admin-btn" onclick="verifyAdminPassword()">Verify & Unlock 🔑</button>
                 </div>
@@ -433,35 +422,19 @@
             <div id="scrAdminPanel" class="app-page">
                 <h2 style="font-size: 1.3rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🛠 Admin Control Center</h2>
                 
-                <!-- 1. Platform Manager -->
                 <div class="admin-form-group">
-                    <h3>1. Manage Platforms (Services)</h3>
+                    <h3>1. Live Loaded Stocks (All Platforms)</h3>
+                    <div class="delete-grid" id="adminPlatformDeleteGrid" style="max-height: 200px;"></div>
+                </div>
+
+                <div class="admin-form-group">
+                    <h3>2. Bulk Upload Numbers</h3>
                     <input type="text" id="newPlatformInput" class="admin-input" placeholder="Platform Name (e.g. WhatsApp)">
-                    <button class="admin-btn" style="margin-bottom:5px;" onclick="addPlatformFromPanel()">Create Platform</button>
-                    
-                    <div class="delete-grid" id="adminPlatformDeleteGrid"></div>
-                </div>
-
-                <!-- 2. Country Manager -->
-                <div class="admin-form-group">
-                    <h3>2. Manage Countries (Manual Directory)</h3>
-                    <input type="text" id="newCountryCode" class="admin-input" placeholder="Country Code/Prefix (e.g. 880)">
                     <input type="text" id="newCountryName" class="admin-input" placeholder="Country Name (e.g. Bangladesh)">
-                    <input type="text" id="newCountryFlag" class="admin-input" placeholder="Flag Emoji (e.g. 🇧🇩)">
-                    <button class="admin-btn" style="background:var(--accent-purple); margin-bottom:5px;" onclick="addCountryFromPanel()">Add Country to List</button>
-                    
-                    <div class="delete-grid" id="adminCountryDeleteGrid"></div>
-                </div>
-
-                <!-- 3. Bulk Add Numbers -->
-                <div class="admin-form-group">
-                    <h3>3. Bulk Upload Numbers</h3>
-                    <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:5px;">Select Target Platform:</label>
-                    <select id="adminPlatformSelect" class="admin-select"></select>
                     
                     <label style="font-size:0.8rem; color:var(--text-muted); display:block; margin-bottom:5px;">Paste Numbers (One per line):</label>
                     <textarea id="bulkNumbersArea" class="admin-textarea" placeholder="8801751385632&#10;224613180137"></textarea>
-                    <button class="admin-btn" style="background:var(--accent-green); color:black;" onclick="addBulkNumbersFromPanel()">Add Numbers to Stock</button>
+                    <button class="admin-btn" style="background:var(--accent-green); color:black;" onclick="addBulkNumbersFromPanel()">Add Numbers to Database Stock 🚀</button>
                 </div>
             </div>
 
@@ -476,458 +449,377 @@
                 <div class="nav-tab" id="tabAdmin" onclick="handleAdminTabClick()">
                     <div style="font-size:1.2rem">⚙️</div><div>Admin</div>
                 </div>
-                <div class="nav-tab"><div style="font-size:1.2rem">$</div><div>Sell</div></div>
-                <div class="nav-tab"><div style="font-size:1.2rem">📁</div><div>Wallet</div></div>
             </div>
 
         </div>
 
     </div>
 
+    <!-- REAL-TIME BACKEND INTEGRATION ENGINE -->
     <script>
-    const ADMIN_SECRET_PASSWORD = "1234"; 
-    let isAdminAuthenticated = false;
+        // ⚠️ আপনার লোকালহোস্ট অথবা Localtunnel / PythonAnywhere এর URL-টি এখানে বসাবেন
+        const API_BASE_URL = "https://your-localtunnel-url-here.loca.lt"; 
 
-    // ⚠️ আপনার localtunnel থেকে প্রাপ্ত HTTPS লিংকটি এখানে বসাবেন (যেমন: https://cool-urls-hide.loca.lt)
-    const TERMUX_API_URL = "http://127.0.0.1:8000";
-    let targetUid = null;
-    let sessionUser = JSON.parse(localStorage.getItem('suresms_logged_user')) || null;
+        let targetUid = null;
+        let currentActiveNumberObj = null;
+        let countdownInterval = null;
+        let liveDataPollInterval = null;
 
-    let countryDirectory = JSON.parse(localStorage.getItem('suresms_countries')) || {
-        "223": { name: "Mali", flag: "🇲🇱", code: "+223" },
-        "224": { name: "Guinea", flag: "🇬🇳", code: "+224" },
-        "236": { name: "Central Africa", flag: "🇨🇫", code: "+236" },
-        "95":  { name: "Myanmar", flag: "🇲🇲", code: "+95" },
-        "880": { name: "Bangladesh", flag: "🇧🇩", code: "+880" }
-    };
+        let selectedPlatform = "Facebook";
+        const ADMIN_SECRET_PASSWORD = "1234"; 
+        let isAdminAuthenticated = false;
 
-    let platformsList = JSON.parse(localStorage.getItem('suresms_platforms')) || ["Facebook", "WhatsApp", "Telegram"];
+        window.onload = function() {
+            switchScreen('scrLoginGate');
+        };
 
-    let numberStock = JSON.parse(localStorage.getItem('suresms_v2_stock')) || [
-        { id: 1, platform: "Facebook", countryCode: "223", number: "22375491102", isUsed: false },
-        { id: 2, platform: "Facebook", countryCode: "224", number: "224613180137", isUsed: false },
-        { id: 3, platform: "Facebook", countryCode: "224", number: "224613999999", isUsed: false }
-    ];
+        /* ✉ STEP 1: REQUEST OTP VIA TERMUX / PYTHON BACKEND */
+        function requestTelegramOtp() {
+            const uidInput = document.getElementById('tgUidInput').value.trim();
+            if(!uidInput) { alert("অনুগ্রহ করে আপনার সঠিক Telegram UID টাইপ করুন!"); return; }
 
-    let selectedPlatform = "Facebook";
-    let currentActiveNumberObj = null;
-    let countdownInterval = null;
+            targetUid = uidInput;
 
-    window.onload = function() {
-        if(sessionUser) {
-            loadAppInterface(sessionUser);
+            fetch(`${API_BASE_URL}/send-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ uid: targetUid })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    alert("আপনার টেলিগ্রাম বোটে ওটিপি (OTP) পাঠানো হয়েছে! চেক করুন।");
+                    document.getElementById('otpInputSection').style.display = "block";
+                    document.getElementById('otpSendBtn').innerText = "Resend OTP 🔄";
+                } else {
+                    alert(data.message || "ওটিপি পাঠাতে ব্যর্থ হয়েছে।");
+                }
+            })
+            .catch(err => {
+                alert("সার্ভারের সাথে কানেক্ট করা যাচ্ছে না! ব্যাকএন্ড এপিআই কি সচল আছে?");
+            });
         }
-    };
 
-    /* ✉ STEP 1: REQUEST OTP VIA TERMUX BACKEND */
-    function requestTelegramOtp() {
-        const uidInput = document.getElementById('tgUidInput').value.trim();
-        if(!uidInput) { alert("অনুগ্রহ করে আপনার সঠিক Telegram UID টাইপ করুন!"); return; }
+        /* 🔐 STEP 2: VERIFY CODE VIA BACKEND */
+        function verifyTelegramLogin() {
+            const enteredOtp = document.getElementById('tgOtpInput').value.trim();
+            if(!enteredOtp) { alert("বটের ওটিপি কোডটি টাইপ করুন!"); return; }
 
-        targetUid = uidInput;
+            fetch(`${API_BASE_URL}/verify-otp`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ uid: targetUid, otp: enteredOtp })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    fetchFreshTelegramProfile();
+                } else {
+                    alert(data.message || "ভুল ওটিপি কোড!");
+                }
+            })
+            .catch(err => {
+                alert("ভেরিফিকেশন রিকোয়েস্ট ফেইল্ড!");
+            });
+        }
 
-        fetch(`${TERMUX_API_URL}/send-otp`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ uid: targetUid })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.success) {
-                alert("আপনার টেলিগ্রাম বোটে ওটিপি (OTP) পাঠানো হয়েছে! চেক করুন।");
-                document.getElementById('otpInputSection').style.display = "block";
-                document.getElementById('otpSendBtn').innerText = "Resend OTP 🔄";
-            } else {
-                alert(data.message || "ওটিপি পাঠাতে ব্যর্থ হয়েছে।");
+        /* 👤 FETCH FRESH DATA FROM BOT DB */
+        function fetchFreshTelegramProfile() {
+            fetch(`${API_BASE_URL}/user?uid=${targetUid}&timestamp=${new Date().getTime()}`)
+            .then(res => res.json())
+            .then(user => {
+                if(user.uid) {
+                    document.getElementById('scrLoginGate').style.display = "none";
+                    document.getElementById('mainAppInterface').style.display = "block";
+                    
+                    document.getElementById('userHeaderName').innerText = `${user.first_name} ${user.last_name}`.trim();
+                    document.getElementById('userHeaderAvatar').innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+                    
+                    startRealTimePolling();
+                    switchScreen('scrIntro');
+                } else {
+                    alert("ইউজার প্রোফাইল ডাটা সিঙ্ক করা সম্ভব হয়নি।");
+                }
+            })
+            .catch(() => alert("প্রোফাইল ইনফরমেশন ফেচ করতে সমস্যা হচ্ছে!"));
+        }
+
+        /* 🔄 REAL-TIME JSON SYNC ENGINE (5 SECONDS INTERVAL) */
+        function startRealTimePolling() {
+            if(liveDataPollInterval) clearInterval(liveDataPollInterval);
+            
+            syncDataFromBackend();
+            liveDataPollInterval = setInterval(() => {
+                syncDataFromBackend();
+            }, 5000); 
+        }
+
+        function syncDataFromBackend() {
+            fetch(`${API_BASE_URL}/numbers?timestamp=${new Date().getTime()}`)
+            .then(res => res.json())
+            .then(numbers => {
+                renderServices(numbers);
+                renderGroupedCountries(numbers);
+                updateAdminPanelUI(numbers);
+            })
+            .catch(err => console.log("রিয়েল-টাইম ডাটা সিঙ্কিং ড্রপ...", err));
+        }
+
+        /* 📱 NAVIGATION CONTROLLER */
+        function switchScreen(pageId) {
+            if (pageId === 'scrLoginGate') {
+                document.getElementById('scrLoginGate').style.display = "flex";
+                document.getElementById('mainAppInterface').style.display = "none";
+                return;
             }
-        })
-        .catch(err => {
-            alert("টারমাক্স সার্ভারের সাথে কানেক্ট করা যাচ্ছে না! আপনার Localtunnel কি চালু আছে?");
-        });
-    }
 
-    /* 🔐 STEP 2: VERIFY CODE VIA TERMUX BACKEND */
-    function verifyTelegramLogin() {
-        const enteredOtp = document.getElementById('tgOtpInput').value.trim();
-        if(!enteredOtp) { alert("বটের ওটিপি কোডটি টাইপ করুন!"); return; }
+            document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+            const targetPage = document.getElementById(pageId);
+            if(targetPage) targetPage.classList.add('active');
 
-        fetch(`${TERMUX_API_URL}/verify-otp`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ uid: targetUid, otp: enteredOtp })
-        })
-        .then(res => res.json())
-        .then(data => {
-            if(data.success) {
-                let finalUsername = data.name;
+            const sBar = document.getElementById('sectionBar');
+            const bTitle = document.getElementById('barTitle');
+            const bSub = document.getElementById('barSubText');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
 
-                let profilePicHtml = `<img src="${data.photo}">`;
-
-                let userData = {
-                    username: finalUsername,
-                    avatarHtml: profilePicHtml
-                };
-
-                localStorage.setItem('suresms_logged_user', JSON.stringify(userData));
-                loadAppInterface(userData);
-            } else {
-                alert(data.message || "ভুল ওটিপি কোড!");
+            if (pageId === 'scrIntro') { sBar.style.display = 'none'; } 
+            else if (pageId === 'scrService') {
+                sBar.style.display = 'flex'; bTitle.innerText = "Platform"; bSub.innerText = "Choose a platform service";
+                document.getElementById('tabServices').classList.add('active');
+            } 
+            else if (pageId === 'scrCountry') {
+                sBar.style.display = 'flex'; bTitle.innerText = "Platform"; bSub.innerText = `${selectedPlatform} — choose a country`;
+                document.getElementById('tabServices').classList.add('active');
+            } 
+            else if (pageId === 'scrLive') {
+                sBar.style.display = 'flex'; bTitle.innerText = "My Number"; bSub.innerText = "Active line — codes update live";
+                document.getElementById('tabLive').classList.add('active');
             }
-        })
-        .catch(err => {
-            alert("ভেরিফিকেশন রিকোয়েস্ট ফেইল্ড!");
-        });
-    }
-
-    function loadAppInterface(userData) {
-        document.getElementById('scrLoginGate').style.display = "none";
-        document.getElementById('mainAppInterface').style.display = "block";
-        
-        document.getElementById('userHeaderName').innerText = userData.username;
-        document.getElementById('userHeaderAvatar').innerHTML = userData.avatarHtml;
-        
-        renderServices();
-    }
-
-    function switchScreen(pageId) {
-        document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-
-        const sBar = document.getElementById('sectionBar');
-        const bTitle = document.getElementById('barTitle');
-        const bSub = document.getElementById('barSubText');
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-
-        if (pageId === 'scrIntro') { sBar.style.display = 'none'; } 
-        else if (pageId === 'scrService') {
-            sBar.style.display = 'flex'; bTitle.innerText = "Platform"; bSub.innerText = "Choose a platform service";
-            document.getElementById('tabServices').classList.add('active');
-            renderServices();
-        } 
-        else if (pageId === 'scrCountry') {
-            sBar.style.display = 'flex'; bTitle.innerText = "Platform"; bSub.innerText = `${selectedPlatform} — choose a country`;
-            document.getElementById('tabServices').classList.add('active');
-            renderGroupedCountries();
-        } 
-        else if (pageId === 'scrLive') {
-            sBar.style.display = 'flex'; bTitle.innerText = "My Number"; bSub.innerText = "Active line — codes update live";
-            document.getElementById('tabLive').classList.add('active');
-            document.getElementById('copyBadge').innerText = "TAP 📋";
-            document.getElementById('copyBadge').style.color = "var(--accent-purple)";
+            else if (pageId === 'scrAdminAuth') {
+                sBar.style.display = 'flex'; bTitle.innerText = "Admin Identity"; bSub.innerText = "Verification required";
+                document.getElementById('tabAdmin').classList.add('active');
+            }
+            else if (pageId === 'scrAdminPanel') {
+                sBar.style.display = 'flex'; bTitle.innerText = "Admin Control Center"; bSub.innerText = "Manage platforms & live stock";
+                document.getElementById('tabAdmin').classList.add('active');
+            }
         }
-        else if (pageId === 'scrAdminAuth') {
-            sBar.style.display = 'flex'; bTitle.innerText = "Admin Identity"; bSub.innerText = "Verification required";
-            document.getElementById('tabAdmin').classList.add('active');
+
+        function handleGlobalBack() {
+            const activePage = document.querySelector('.app-page.active').id;
+            if (activePage === 'scrService') switchScreen('scrIntro');
+            else if (activePage === 'scrCountry') switchScreen('scrService');
+            else switchScreen('scrService');
         }
-        else if (pageId === 'scrAdminPanel') {
-            sBar.style.display = 'flex'; bTitle.innerText = "Admin Control Center"; bSub.innerText = "Manage platforms, countries & bulk stock";
-            document.getElementById('tabAdmin').classList.add('active');
-            updateAdminPanelUI();
+
+        function handleLiveTabClick() {
+            if(currentActiveNumberObj) switchScreen('scrLive');
+            else alert("আপনার কোনো অ্যাক্টিভ নম্বর নেই!");
         }
-    }
 
-    function handleGlobalBack() {
-        const activePage = document.querySelector('.app-page.active').id;
-        if (activePage === 'scrService') switchScreen('scrIntro');
-        else if (activePage === 'scrCountry') switchScreen('scrService');
-        else switchScreen('scrService');
-    }
-
-    function handleLiveTabClick() {
-        if(currentActiveNumberObj) switchScreen('scrLive');
-        else alert("আপনার কোনো অ্যাক্টিভ নম্বর নেই!");
-    }
-
-    function handleAdminTabClick() {
-        if (isAdminAuthenticated) { switchScreen('scrAdminPanel'); } 
-        else { switchScreen('scrAdminAuth'); }
-    }
-
-    function verifyAdminPassword() {
-        const passInput = document.getElementById('adminPasswordField');
-        if (passInput.value === ADMIN_SECRET_PASSWORD) {
-            isAdminAuthenticated = true;
-            passInput.value = ""; 
-            switchScreen('scrAdminPanel');
-        } else {
-            alert("ভুল পাসওয়ার্ড! অ্যাক্সেস ডিনাইড।");
-            passInput.value = "";
+        function handleAdminTabClick() {
+            if (isAdminAuthenticated) { switchScreen('scrAdminPanel'); } 
+            else { switchScreen('scrAdminAuth'); }
         }
-    }
 
-    function renderServices() {
-        const container = document.getElementById('dynamicServiceList');
-        container.innerHTML = "";
-        let visiblePlatformsCount = 0;
-
-        platformsList.forEach(pName => {
-            let hasNumbers = numberStock.some(n => n.platform === pName && !n.isUsed && countryDirectory[n.countryCode]);
-            if (!hasNumbers) return; 
-
-            visiblePlatformsCount++;
-            const card = document.createElement('div');
-            card.className = 'service-card';
-            card.onclick = () => { selectedPlatform = pName; switchScreen('scrCountry'); };
-            card.innerHTML = `
-                <div class="service-left">
-                    <div class="service-icon-box">${pName.charAt(0).toUpperCase()}</div>
-                    <div><div class="service-name">${pName}</div><div class="service-hint">Tap to choose country & get number</div></div>
-                </div>
-                <div style="color: var(--text-muted);">❯</div>`;
-            container.appendChild(card);
-        });
-
-        if(visiblePlatformsCount === 0) {
-            container.innerHTML = `<div style='text-align:center; padding:40px 0; color:var(--text-muted);'>বর্তমানে কোনো সচল প্ল্যাটফর্ম বা স্টক নেই। অনুগ্রহ করে অ্যাডমিন প্যানেল থেকে নম্বর লোড করুন।</div>`;
+        function verifyAdminPassword() {
+            const passInput = document.getElementById('adminPasswordField');
+            if (passInput.value === ADMIN_SECRET_PASSWORD) {
+                isAdminAuthenticated = true;
+                passInput.value = ""; 
+                switchScreen('scrAdminPanel');
+            } else {
+                alert("ভুল পাসওয়ার্ড! অ্যাক্সেস ডিনাইড।");
+                passInput.value = "";
+            }
         }
-    }
 
-    function renderGroupedCountries() {
-        const listContainer = document.getElementById('dynamicCountryList');
-        listContainer.innerHTML = "";
+        /* 📦 RENDER DYNAMIC PLATFORMS */
+        function renderServices(numbers) {
+            const container = document.getElementById('dynamicServiceList');
+            if(!container) return;
+            container.innerHTML = "";
 
-        let freshNumbers = numberStock.filter(n => n.platform === selectedPlatform && !n.isUsed);
-        let displayedCountries = {};
-        let validCountryCount = 0;
+            let platforms = [...new Set(numbers.map(n => n.platform))];
 
-        freshNumbers.forEach(item => {
-            let code = item.countryCode;
-            if (!countryDirectory[code] || displayedCountries[code]) return; 
-            displayedCountries[code] = true;
-            validCountryCount++;
-
-            let meta = countryDirectory[code];
-            const row = document.createElement('div');
-            row.className = 'country-row';
-            row.onclick = () => assignFirstAvailableNumberFromCountry(code);
-            row.innerHTML = `
-                <div class="country-left">
-                    <div class="flag-box">${meta.flag}</div>
-                    <div class="country-details">
-                        <div class="c-name">${meta.name} ${meta.code}</div>
-                        <div class="status-badge">Available</div>
+            platforms.forEach(pName => {
+                const card = document.createElement('div');
+                card.className = 'service-card';
+                card.onclick = () => { selectedPlatform = pName; switchScreen('scrCountry'); syncDataFromBackend(); };
+                card.innerHTML = `
+                    <div class="service-left">
+                        <div class="service-icon-box">${pName.charAt(0).toUpperCase()}</div>
+                        <div><div class="service-name">${pName}</div><div class="service-hint">Tap to choose country & get number</div></div>
                     </div>
-                </div>
-                <div style="color: var(--text-muted)">❯</div>`;
-            listContainer.appendChild(row);
-        });
+                    <div style="color: var(--text-muted);">❯</div>`;
+                container.appendChild(card);
+            });
 
-        if(validCountryCount === 0) {
-            alert("এই প্ল্যাটফর্মের সকল নম্বর শেষ! আপনাকে মেইন প্ল্যাটফর্ম অপশনে পাঠানো হচ্ছে।");
-            switchScreen('scrService');
-        }
-    }
-
-    function assignFirstAvailableNumberFromCountry(cCode) {
-        const index = numberStock.findIndex(n => n.platform === selectedPlatform && n.countryCode === cCode && !n.isUsed);
-        if (index === -1) { renderGroupedCountries(); return; }
-
-        numberStock[index].isUsed = true;
-        localStorage.setItem('suresms_v2_stock', JSON.stringify(numberStock));
-
-        currentActiveNumberObj = numberStock[index];
-        let meta = countryDirectory[cCode] || { name: "Unknown", flag: "🏳️" };
-
-        document.getElementById('liveMetaTitle').innerHTML = `${selectedPlatform} · ${meta.name} ${meta.flag}`;
-        document.getElementById('liveNumberDisplay').innerText = currentActiveNumberObj.number;
-
-        startTimer(295);
-        switchScreen('scrLive');
-    }
-
-    function requestNextNumberSameCountry() {
-        if(!currentActiveNumberObj) { switchScreen('scrService'); return; }
-        let currentCountryCode = currentActiveNumberObj.countryCode; 
-        const index = numberStock.findIndex(n => n.platform === selectedPlatform && n.countryCode === currentCountryCode && !n.isUsed);
-
-        if(index === -1) {
-            alert("এই দেশের নম্বর শেষ! প্ল্যাটফর্ম/কান্ট্রি পেজে রিডিরেক্ট করা হচ্ছে।");
-            let hasAnyLeft = numberStock.some(n => n.platform === selectedPlatform && !n.isUsed && countryDirectory[n.countryCode]);
-            if(hasAnyLeft) switchScreen('scrCountry');
-            else switchScreen('scrService'); 
-        } else {
-            assignFirstAvailableNumberFromCountry(currentCountryCode);
-        }
-    }
-
-    function updateAdminPanelUI() {
-        const select = document.getElementById('adminPlatformSelect');
-        select.innerHTML = "";
-        platformsList.forEach(p => {
-            let opt = document.createElement('option');
-            opt.value = p; opt.innerText = p;
-            select.appendChild(opt);
-        });
-
-        const pGrid = document.getElementById('adminPlatformDeleteGrid');
-        pGrid.innerHTML = "";
-        platformsList.forEach(p => {
-            let row = document.createElement('div');
-            row.className = "delete-item-row";
-            row.innerHTML = `<span>📦 ${p}</span><button class="delete-action-btn" onclick="deletePlatform('${p}')">Delete</button>`;
-            pGrid.appendChild(row);
-        });
-
-        const cGrid = document.getElementById('adminCountryDeleteGrid');
-        cGrid.innerHTML = "";
-        for(let code in countryDirectory) {
-            let c = countryDirectory[code];
-            let row = document.createElement('div');
-            row.className = "delete-item-row";
-            row.innerHTML = `<span>${c.flag} ${c.name} (${c.code})</span><button class="delete-action-btn" onclick="deleteCountry('${code}')">Delete</button>`;
-            cGrid.appendChild(row);
-        }
-    }
-
-    function addPlatformFromPanel() {
-        const input = document.getElementById('newPlatformInput');
-        let pName = input.value.trim();
-        if(!pName) { alert("প্ল্যাটফর্মের নাম লিখুন!"); return; }
-
-        if(!platformsList.includes(pName)) {
-            platformsList.push(pName);
-            localStorage.setItem('suresms_platforms', JSON.stringify(platformsList));
-            input.value = "";
-            updateAdminPanelUI();
-            alert(`"${pName}" প্ল্যাটফর্ম সফলভাবে তৈরি হয়েছে!`);
-        } else { alert("এই প্ল্যাটফর্মটি অলরেডি লিস্টে আছে।"); }
-    }
-
-    function addCountryFromPanel() {
-        const codeInput = document.getElementById('newCountryCode');
-        const nameInput = document.getElementById('newCountryName');
-        const flagInput = document.getElementById('newCountryFlag');
-
-        let code = codeInput.value.replace("+", "").trim();
-        let name = nameInput.value.trim();
-        let flag = flagInput.value.trim();
-
-        if(!code || !name || !flag) { alert("কোড, নাম এবং ফ্ল্যাগ সবগুলো ঘর পূরণ করুন!"); return; }
-
-        countryDirectory[code] = { name: name, flag: flag, code: "+" + code };
-        localStorage.setItem('suresms_countries', JSON.stringify(countryDirectory));
-        
-        codeInput.value = ""; nameInput.value = ""; flagInput.value = "";
-        updateAdminPanelUI();
-        alert(`সফলভাবে ডিরেক্টরিতে "${name}" কান্ট্রি অ্যাড হয়েছে!`);
-    }
-
-    function deletePlatform(pName) {
-        if(confirm(`আপনি কি নিশ্চিতভাবে "${pName}" প্ল্যাটফর্মটি ডিলেট করতে চান?`)) {
-            platformsList = platformsList.filter(p => p !== pName);
-            localStorage.setItem('suresms_platforms', JSON.stringify(platformsList));
-            numberStock = numberStock.filter(n => n.platform !== pName);
-            localStorage.setItem('suresms_v2_stock', JSON.stringify(numberStock));
-            updateAdminPanelUI();
-            renderServices();
-        }
-    }
-
-    function deleteCountry(cCode) {
-        if(confirm(`এই দেশ ডিলেট করলে এই কোডের সব স্টক নম্বরও রিমুভ হয়ে যাবে। ডিলেট করবেন?`)) {
-            delete countryDirectory[cCode];
-            localStorage.setItem('suresms_countries', JSON.stringify(countryDirectory));
-            numberStock = numberStock.filter(n => n.countryCode !== cCode);
-            localStorage.setItem('suresms_v2_stock', JSON.stringify(numberStock));
-            updateAdminPanelUI();
-            renderServices();
-        }
-    }
-
-    function addBulkNumbersFromPanel() {
-        const targetPlatform = document.getElementById('adminPlatformSelect').value;
-        const bulkInput = document.getElementById('bulkNumbersArea').value;
-
-        if(!targetPlatform) { alert("প্রথমে প্ল্যাটফর্ম সিলেক্ট করুন!"); return; }
-        if(!bulkInput.trim()) { alert("নম্বর লিস্ট পেস্ট করুন!"); return; }
-
-        let lines = bulkInput.split("\n");
-        let addedCount = 0;
-
-        lines.forEach(line => {
-            let num = line.replace("+", "").trim();
-            if (!num) return;
-
-            let detectedPrefix = "";
-            for (let prefix in countryDirectory) {
-                if (num.startsWith(prefix)) { detectedPrefix = prefix; break; }
+            if(platforms.length === 0) {
+                container.innerHTML = `<div style='text-align:center; padding:40px 0; color:var(--text-muted);'>বর্তমানে কোনো সচল প্ল্যাটফর্ম বা স্টক নেই। অনুগ্রহ করে অ্যাডমিন প্যানেল থেকে নম্বর লোড করুন।</div>`;
             }
+        }
 
-            if (detectedPrefix) {
-                numberStock.push({
-                    id: Date.now() + Math.random(),
-                    platform: targetPlatform,
-                    countryCode: detectedPrefix,
-                    number: num,
-                    isUsed: false
-                });
-                addedCount++;
-            }
-        });
+        /* 🏳️ RENDER DYNAMIC COUNTRIES */
+        function renderGroupedCountries(numbers) {
+            const listContainer = document.getElementById('dynamicCountryList');
+            if(!listContainer) return;
+            listContainer.innerHTML = "";
 
-        localStorage.setItem('suresms_v2_stock', JSON.stringify(numberStock));
-        document.getElementById('bulkNumbersArea').value = ""; 
-        alert(`সফলভাবে ${targetPlatform}-এ ${addedCount}টি নতুন নম্বর লোড হয়েছে!`);
-        renderServices();
-    }
+            let freshNumbers = numbers.filter(n => n.platform === selectedPlatform);
+            let countries = [...new Set(freshNumbers.map(n => n.country))];
 
-    function startTimer(duration) {
-        clearInterval(countdownInterval);
-        let timer = duration;
-        const progressFill = document.getElementById('timerProgress');
-        const secondsTxt = document.getElementById('secondsTxt');
+            countries.forEach(cName => {
+                const row = document.createElement('div');
+                row.className = 'country-row';
+                row.onclick = () => assignFirstAvailableNumber(freshNumbers, cName);
+                row.innerHTML = `
+                    <div class="country-left">
+                        <div class="flag-box">🏳️</div>
+                        <div class="country-details">
+                            <div class="c-name">${cName}</div>
+                            <div class="status-badge">Available</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--text-muted)">❯</div>`;
+                listContainer.appendChild(row);
+            });
 
-        countdownInterval = setInterval(() => {
-            secondsTxt.innerText = timer;
-            let percent = (timer / duration) * 100;
-            progressFill.style.width = percent + '%';
-
-            if (--timer < 0) {
-                clearInterval(countdownInterval);
-                alert("নম্বরের মেয়াদ শেষ হয়ে গেছে!");
+            if(countries.length === 0 && document.getElementById('scrCountry').classList.contains('active')) {
+                alert("এই প্ল্যাটফর্মের সকল নম্বর শেষ!");
                 switchScreen('scrService');
             }
-        }, 1000);
-    }
-
-    function copyNumber() {
-        const num = document.getElementById('liveNumberDisplay').innerText;
-        if(num === "0000000000") return;
-        
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(num).then(() => {
-                showCopySuccess();
-            }).catch(() => {
-                fallbackCopyMethod(num);
-            });
-        } else {
-            fallbackCopyMethod(num);
         }
-    }
 
-    function fallbackCopyMethod(text) {
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-        textArea.style.position = "fixed";
-        textArea.style.background = "transparent";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-            if (document.execCommand('copy')) { showCopySuccess(); }
-        } catch (err) {}
-        document.body.removeChild(textArea);
-    }
+        function assignFirstAvailableNumber(freshNumbers, countryName) {
+            let targetObj = freshNumbers.find(n => n.country === countryName);
+            if (!targetObj) return;
 
-    function showCopySuccess() {
-        const badge = document.getElementById('copyBadge');
-        badge.innerText = "COPIED! ✅";
-        badge.style.color = "var(--accent-green)";
-        setTimeout(() => {
-            badge.innerText = "TAP 📋";
-            badge.style.color = "var(--accent-purple)";
-        }, 2000);
-    }
-</script>
+            currentActiveNumberObj = targetObj;
+            document.getElementById('liveMetaTitle').innerHTML = `${selectedPlatform} · ${countryName}`;
+            document.getElementById('liveNumberDisplay').innerText = currentActiveNumberObj.number;
+
+            startTimer(295);
+            switchScreen('scrLive');
+        }
+
+        function requestNextNumberSameCountry() {
+            if(!currentActiveNumberObj) { switchScreen('scrService'); return; }
+            
+            fetch(`${API_BASE_URL}/delete-number`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: currentActiveNumberObj.id })
+            })
+            .then(() => {
+                currentActiveNumberObj = null;
+                switchScreen('scrService');
+            });
+        }
+
+        /* 🛠 ADMIN MANAGER */
+        function updateAdminPanelUI(numbers) {
+            const stockGrid = document.getElementById('adminPlatformDeleteGrid');
+            if(!stockGrid) return;
+            stockGrid.innerHTML = "";
+
+            numbers.forEach(num => {
+                let row = document.createElement('div');
+                row.className = "delete-item-row";
+                row.style.marginBottom = "5px";
+                row.innerHTML = `<span>[${num.platform}] ${num.number} (${num.country})</span>
+                                 <button class="delete-action-btn" onclick="deleteNumberFromBackend('${num.id}')">Delete</button>`;
+                stockGrid.appendChild(row);
+            });
+        }
+
+        function addBulkNumbersFromPanel() {
+            const platform = document.getElementById('newPlatformInput').value.trim();
+            const country = document.getElementById('newCountryName').value.trim();
+            const bulkInput = document.getElementById('bulkNumbersArea').value.trim();
+
+            if(!platform || !country || !bulkInput) { alert("সবগুলো ইনপুট ফিল্ড পূরণ করুন!"); return; }
+
+            let lines = bulkInput.split("\n");
+            let completeRequests = 0;
+
+            lines.forEach(line => {
+                let num = line.trim();
+                if (!num) return;
+
+                fetch(`${API_BASE_URL}/add-number`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ platform, country, number: num })
+                })
+                .then(() => {
+                    completeRequests++;
+                    if(completeRequests === lines.length) {
+                        alert("সবগুলো নম্বর সফলভাবে সার্ভার ডাটাবেজে লোড হয়েছে!");
+                        document.getElementById('bulkNumbersArea').value = "";
+                        syncDataFromBackend();
+                    }
+                });
+            });
+        }
+
+        function deleteNumberFromBackend(id) {
+            if(confirm("আপনি কি নিশ্চিত নম্বরটি ডিলিট করতে চান?")) {
+                fetch(`${API_BASE_URL}/delete-number`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(() => {
+                    syncDataFromBackend();
+                });
+            }
+        }
+
+        /* ⏱ TIMER & RECOVERY CONTROL */
+        function startTimer(duration) {
+            clearInterval(countdownInterval);
+            let timer = duration;
+            const progressFill = document.getElementById('timerProgress');
+            const secondsTxt = document.getElementById('secondsTxt');
+
+            countdownInterval = setInterval(() => {
+                secondsTxt.innerText = timer;
+                let percent = (timer / duration) * 100;
+                if(progressFill) progressFill.style.width = percent + '%';
+
+                if (--timer < 0) {
+                    clearInterval(countdownInterval);
+                    alert("নম্বরের মেয়াদ শেষ হয়ে গেছে!");
+                    switchScreen('scrService');
+                }
+            }, 1000);
+        }
+
+        function copyNumber() {
+            const num = document.getElementById('liveNumberDisplay').innerText;
+            if(num === "0000000000") return;
+            
+            navigator.clipboard.writeText(num).then(() => {
+                const badge = document.getElementById('copyBadge');
+                badge.innerText = "COPIED! ✅";
+                badge.style.color = "var(--accent-green)";
+                setTimeout(() => {
+                    badge.innerText = "TAP 📋";
+                    badge.style.color = "var(--accent-purple)";
+                }, 2000);
+            });
+        }
+
+        function logout() {
+            clearInterval(liveDataPollInterval);
+            targetUid = null;
+            currentActiveNumberObj = null;
+            document.getElementById('tgUidInput').value = "";
+            document.getElementById('tgOtpInput').value = "";
+            document.getElementById('otpInputSection').style.display = "none";
+            switchScreen('scrLoginGate');
+        }
+    </script>
 </body>
 </html>
